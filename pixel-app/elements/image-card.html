@@ -1,0 +1,164 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/core-ajax/core-xhr.html">
+
+<polymer-element name="image-card" attributes="imageName">
+  <template>
+    <style>
+    /*:host {
+      position: relative;
+      font-size: 1.2rem;
+      font-weight: 100;
+	  border-radius: 2px;
+	  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	  box-sizing: border-box;
+	  display: block;
+	  margin-top: 20px;
+	  max-height: 100px;
+	}*/
+	
+	.card-header {
+	  margin-top: 10px;  
+      margin-bottom: 10px;
+    }
+    
+
+    polyfill-next-selector { content: '.card-header h3'; }
+    .card-header ::content h3 {
+      margin: 0;
+      /*font-size: 1.6rem;*/
+      font-weight: 300;
+    }
+    
+    polyfill-next-selector { content: 'img'; }
+    ::content img {
+      width: 100px;
+      border-radius: 60%;
+      margin: 10px;
+      height: 100px;
+    }
+    
+    .pixel-image > paper-ripple {
+    	border-radius: 2px;
+		overflow: hidden;
+	}
+    
+    core-icon-button {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      color: #636363;
+    }
+    :host([favorite]) core-icon-button {
+      color: #da4336;
+    }
+    
+    .lower {
+	    align:right;
+    }
+    
+    .button.raised {
+	    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+	    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+	}
+	
+	.button.blue {
+	    background-color: #4285f4;
+		color: #fff;
+	}
+	
+	.button {
+	    background-color: #fff;
+	    border-radius: 2px;
+	    color: #646464;
+	    display: inline-block;
+	    font-size: 0.9em;
+	    height: 30px;
+	    line-height: 32px;
+	    position: relative;
+	    width: 120px;
+	    top:100px;
+	    text-align:center;
+	}
+	.center {
+		text-align: center;
+	}
+		
+	.button > paper-ripple {
+		border-radius: 2px;
+		overflow: hidden;
+	}
+	     
+    
+    </style>
+	
+	<content select="img"></content>
+	<div class="card-header" layout horizontal center>
+	  <content select="h3"></content>
+    </div>
+    
+	<core-icon-button
+      id="favicon"
+      icon="favorite"
+      on-tap="{{favoriteTapped}}">
+    </core-icon-button>
+    
+    <div id="{{imageName}}" class="button raised blue" on-tap="{{pixelDisplay}}">
+	  	Display on Pixel
+        <paper-ripple fit></paper-ripple>
+	 </div>
+	 
+  	<paper-toast id="toast2" class="capsule" text=""
+               duration="3000"></paper-toast>
+  	<content></content>
+  	
+  	<core-ajax id="ajax2"
+        url="/test" 
+        handleAs="json" 
+        method="POST" 
+        params='{"foo": "bar"}'
+        response=""></core-ajax>
+	 
+  </template>
+  <script>
+  Polymer({
+	  
+    publish: {
+      favorite: {
+        value: false,
+        reflect: true
+      }
+    },
+    
+    favoriteTapped: function(event, detail, sender) {
+	  console.log("favorite selected-->"+this.favorite);  
+      this.favorite = !this.favorite;
+      this.fire('favorite-tap');
+    },
+    
+    
+    pixelDisplay: function() {
+	  var inputParam = this.imageName;
+	  var fileName = inputParam.substring(inputParam.lastIndexOf("/")+1,inputParam.length);
+	  this.callImage(fileName);
+	  this.$.toast2.text = fileName +" will display on Pixel !!!!"
+	  this.$.toast2.show();
+	  
+      //this.fire('favorite-tap');
+    },
+     callImage: function(imgSrc) {
+      // no service backend, just log the change
+      
+	      var ajax = this.$.ajax2;
+		  ajax.params = '{"src": "'+imgSrc+'"}'
+		  console.log('Image Source is: ' +  ajax.params);
+	      ajax.go();
+	      this.$.toast2.text="Image Has been Submitted!";
+	      this.$.toast2.show();
+	      console.log('Called Ajax URL');
+    	}
+    
+  });
+  </script>
+</polymer-element>

@@ -1,0 +1,14 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/layouts/sidebar-layout.html">
+<link rel="import" href="/elements/images-list.html">
+
+<polymer-element name="home-page" attributes="pathArg1" noscript>
+  <template>
+    <sidebar-layout selected="home">
+      <div class="title">All Images</div>  
+      <section>
+	    <images-list attributes="{{pathArg1}}"></images-list>
+	 </section>
+    </sidebar-layout>
+  </template>
+</polymer-element>

@@ -1,0 +1,14 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/layouts/sidebar-layout.html">
+<link rel="import" href="/elements/twitter-details.html">
+
+<polymer-element name="twitter-page" noscript>
+  <template>
+    <sidebar-layout selected="twitter">
+      <div class="title">Twitter Feed</div>
+      <section>
+	    <twitter-details></twitter-details>
+	 </section>
+    </sidebar-layout>
+  </template>
+</polymer-element>

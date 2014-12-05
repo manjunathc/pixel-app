@@ -1,0 +1,28 @@
+body {
+  font-family: sans-serif;
+}
+
+paper-fab {
+  background-color: #e0a30b;
+  position: absolute !important;
+  top: 5px;
+  right: 1em;
+  z-index: 10;
+}
+
+paper-icon-button {
+  background-color: #e0a30b;
+  position: absolute !important;
+  bottom: 5px;
+  right: 1em;
+  z-index: 10;
+}
+
+paper-checkbox {
+ padding: 10px;
+}
+
+#checkboxContainer {
+	padding: 10px;
+}
+

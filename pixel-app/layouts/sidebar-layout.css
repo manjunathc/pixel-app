@@ -1,0 +1,38 @@
+/** main content */
+:host /deep/ core-header-panel[main] {
+  background-color: rgba(232, 232, 232, 0.91);
+}
+.content {
+  padding: 20px;
+  padding-top:20px;
+  border-color: gray;
+}
+
+.title {
+  padding: 20px;
+  padding-top:20px;
+  width:80%;
+}
+
+.google-login {
+  padding: 20px;
+  padding-top:20px;
+  		
+}
+
+/** sidebar */
+core-header-panel core-item {
+  padding: 2px 12px;
+  line-height: 40px;
+}
+core-header-panel  core-item:not(:first-of-type) {
+  border-top: 1px solid #f5f5f5;
+}
+core-header-panel core-item:hover,
+core-header-panel core-item:focus {
+  background-color: #fcfcfc;
+  color: #222;
+}
+core-header-panel core-item[active] {
+  border-right: 6px solid #f5f5f5;
+}

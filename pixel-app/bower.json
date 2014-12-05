@@ -1,0 +1,18 @@
+{
+  "name": "pixel-app",
+  "version": "0.0.0",
+  "authors": [
+    "Manjunath Chintamani <manjunath.chintamani@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "app-router": "~2.0.4",
+    "pushstate-anchor": "~0.3.0",
+    "html5-history-anchor": "~0.4.0",
+    "polymer": "~0.5.1",
+    "webcomponentsjs": "~0.5.1",
+    "core-elements": "Polymer/core-elements#~0.5.1",
+    "cors-upload-sample": "googledrive/cors-upload-sample#master",
+    "google-signin": "GoogleWebComponents/google-signin#~0.2.0"
+  }
+}

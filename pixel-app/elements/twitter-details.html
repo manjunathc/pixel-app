@@ -1,0 +1,61 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="image-services/image-service.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
+
+<link rel="import" href="image-card.html">
+
+<polymer-element name="images-list">
+  <template>
+    <!-- add markup here -->
+    
+    <div>
+    <template repeat="{{image,i in images}}" >
+     <paper-shadow z="1">	
+     <image-card
+          favorite=""
+          on-favorite-tap=""
+          >
+      	<img src="{{image.src}}"/>
+		<paper-ripple id="{{image.src}}" class="recenteringTouch" on-tap="{{handleImage}}" fit=""></paper-ripple> 
+		   
+          <h2>{{image.name}}</h2>
+         <div> 
+          <p>{{image.title}}</p>
+         </div>
+      </image-card>
+      </paper-shadow>
+        
+     <!--    
+	  <div class="card">
+		 <img src="{{image.src}}" />
+      </div>-->
+      
+		 
+  </template>
+  </div>
+    <paper-toast id="toast2" class="capsule" text=""
+               duration="3000"></paper-toast>
+                
+  </template>
+  
+  
+  <script>
+	Polymer({
+	  created: function() {
+	 	 console.log("Called Image List");  
+	  },
+
+	  handleImage: function(event, detail, sender) {
+	    var inputParam = sender.id;
+	    var fileName = inputParam.substring(inputParam.lastIndexOf("/")+1,inputParam.length);
+	    this.$.service.callImage(fileName);
+	    this.$.toast2.text = fileName +" will display on Pixel !!!!"
+	    this.$.toast2.show();
+	  }
+	});
+</script>
+
+
+</polymer-element>

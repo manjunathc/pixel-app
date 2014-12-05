@@ -1,0 +1,52 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/core-scaffold/core-scaffold.html">
+<link rel="import" href="/bower_components/core-header-panel/core-header-panel.html">
+<link rel="import" href="/bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="/bower_components/core-item/core-item.html">
+<link rel="import" href="/bower_components/core-icons/social-icons.html">
+<link rel="import" href="/bower_components/pushstate-anchor/src/pushstate-anchor.html">
+<link rel="import" href="/bower_components/google-signin/google-signin.html">
+<link rel="stylesheet" href="../css/pixel-upload.css">
+
+<polymer-element name="sidebar-layout" attributes="selected" noscript>
+  <template>
+    <link rel="stylesheet" href="sidebar-layout.css">
+    <core-scaffold>
+      <core-header-panel navigation flex mode="seamed">
+        <core-toolbar>Pixel Menu</core-toolbar>
+	        <core-item icon="home" label="Main" active?="{{selected == 'home'}}">
+	       		<a is="pushstate-anchor" href="/"></a>
+	        </core-item>
+	        <core-item icon="favorite" label="Favorites" active?="{{selected == 'home'}}">
+	        	<a is="pushstate-anchor" href="/favorite"></a>
+	        </core-item>
+	        <core-item icon="cloud-download" label="Download from Cloud" active?="{{selected == 'notes'}}">
+	        	<a is="pushstate-anchor" href="/notes"></a>
+	        </core-item>
+	        <core-item icon="cloud-upload" label="Upload Images" active?="{{selected == 'upload'}}">
+	        	<a is="pushstate-anchor" href="/upload/1234"></a>
+	        </core-item>
+	        <core-item icon="dashboard" label="Twitter Feed" active?="{{selected == 'twitter'}}">
+	        	<a is="pushstate-anchor" href="/twitter"></a>
+	        </core-item>
+	        <core-item icon="thumb-up" label="Simple Todos" active?="{{selected == 'notes'}}">
+	        	<a is="pushstate-anchor" href="/notes"></a>
+	        </core-item>
+	        <core-item icon="exit-to-app" label="Weather" active?="{{selected == 'upload'}}">
+	        	<a is="pushstate-anchor" href="/upload/1234"></a>
+	        </core-item>
+      </core-header-panel>
+      
+      <div tool>
+	     <content select=".title">
+	     </content>
+      </div>
+      
+      <div class="content">
+	    <content></content>
+      </div>
+    </core-scaffold>
+  </template>
+  
+  
+</polymer-element>

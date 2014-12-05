@@ -1,0 +1,100 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="image-services/image-service.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../bower_components/paper-shadow/paper-shadow.html">
+
+<link rel="import" href="image-card.html">
+
+<polymer-element name="images-list" attributes="selected">
+  <template>
+  	 <style>
+    	
+    	section > * {
+			margin: 15px;
+		}
+		
+		.dialog {
+	    	box-sizing: border-box;
+			padding: 8px;
+		}
+		
+		.card, .dialog {
+		    background-color: #fff;
+		    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24);
+		    display: inline-block;
+		    position: relative;
+		    vertical-align: top;
+		    width: 240px;
+		    height:320px;
+		}
+	    
+	    .dialog > .content {
+	 	   font-size: 0.9em;
+	 	   height: 170px;
+		}
+		
+		.dialog > .button {
+	    	float: right;
+			width: 90px;
+		}
+		.label-blue {
+		    color: #4285f4;
+		}
+		
+     </style>
+    <!-- add markup here -->
+    
+    <image-service id="service" images="{{images}}">
+	</image-service>
+    <section>
+    	<template repeat="{{image,i in images}}" >
+		    <div class="dialog">
+			    <image-card imageName="{{image.src}}" favorite="{{image.favorite}}" on-favorite-tap="{{handleFavorite}}" hidden?="{{selected == 'favorites' && !image.favorite}}">
+			      <img src="{{image.src}}"/>
+			      <h3>{{image.name}}</h3>
+			      <p>{{image.title}}</p>
+			    </image-card>
+	    	</div>
+	    </template>
+	 </section>
+    
+                
+  </template>
+  
+  
+  <script>
+	Polymer({
+	  ready: function() {
+	 	 console.log("Called Image List"+this.$.service);
+	  },
+	  
+	  eventDelegates: {
+        up: 'onTap',
+        down: 'onTap'
+      },
+      
+      onTap: function(event, detail, sender) {
+        
+      },
+      
+	  handleFavorite: function(event, detail, sender) {
+	   var post = sender.templateInstance.model.image;
+	   //this.$.service.setFavorite(post.uid, post.favorite);
+
+	  },
+	  
+	  handleImage: function(event, detail, sender) {
+		var inputParam = sender.id;
+	    var fileName = inputParam.substring(inputParam.lastIndexOf("/")+1,inputParam.length);
+	    this.$.service.callImage(fileName);
+	    this.$.toast2.text = fileName +" will display on Pixel !!!!"
+	    this.$.toast2.show();
+	  }
+	  
+	  
+	});
+</script>
+
+
+</polymer-element>

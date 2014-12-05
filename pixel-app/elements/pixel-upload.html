@@ -1,0 +1,163 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-splitter/core-splitter.html">
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+<script src="../bower_components/cors-upload-sample/upload.js"></script>
+
+<polymer-element name="pixel-image" attributes="pathArg1">
+
+
+  <template>
+    <link rel="stylesheet" href="../css/pixel-upload.css">
+    
+    <div id="loggedin">
+
+	  <div id="dropzone" on-tap="{{tapSelect}}" 
+	  on-dragover="{{handleDragOver}}" 
+	  on-drop="{{handleFileSelect}}">
+	    Drag files to upload
+	    <input type="file" id="files" name="files[]" 
+	      on-change="{{handleFilePick}}" multiple>
+	  </div>
+	</div> 
+	
+	<core-toolbar layout horizontal id="dropzone-bar">
+	  <div>
+	    <span>Auto-upload</span>
+	    <paper-toggle-button 
+	    checked="{{autoUpload}}">
+	    </paper-toggle-button>
+	  </div>
+	
+	  <div>
+	    <button id="upload"
+	    on-click="{{manualUpload}}" 
+	    style="display:{{ autoUpload ? 'none' : 'inline-block' }}">
+	      Upload files
+	    </button>
+	  </div>
+	
+	  <div flex></div>
+	  <div>
+	    <div id="status">Ready</div>
+	    <div id="token"></div>
+	  </div>
+	</core-toolbar>
+	
+	<div id="file-splitter" horizontal layout>
+
+	  <div class="panel">
+	    <core-toolbar><div horizontal layout>Queue</div></core-toolbar>
+	    <ul class="filelist">
+	      <template repeat="{{file in uploadList}}">
+	        <li>
+	        <strong>{{file.name}}</strong> {{file.type}}
+	        </li>
+	      </template>
+	    </ul>
+	  </div>
+	
+	  <core-splitter></core-splitter>
+	
+	<div class="panel">
+	  <core-toolbar><div horizontal layout>Uploaded</div></core-toolbar>
+	
+	    <ul class="filelist">
+	      <template repeat="{{file in uploadedList}}">
+	        <li>
+	        <img src="{{file.iconLink}}"> 
+	        <strong>{{file.title}}</strong>
+	        <p>
+	        <a href="{{file.selfLink}}">Drive URL</a>
+	        <a href="{{file.webContentLink}}">Web URL</a>
+	        </p>
+	        </li>
+	      </template>
+	    </ul>
+	  </div>
+	</div>
+	
+
+	
+
+  </template>
+  <script>
+	  Polymer({
+	    uploadList: [],    // selected files
+	    uploadedList: [],  // successfully uploaded files
+	    autoUpload: false, // automatically upload?
+	    
+	    tapSelect: function (e) {
+		  this.$.files.click();
+		},
+		
+		handleDragOver: function (e) {
+		  e.stopPropagation();
+		  e.preventDefault();
+		  e.dataTransfer.dropEffect = 'copy';
+		},
+		
+		handleFilePick: function (e) {
+		  e.stopPropagation();
+		  e.preventDefault();
+		  this.selectFiles(e.target.files);
+		},
+		
+		handleFileSelect: function (e) {
+		  e.stopPropagation();
+		  e.preventDefault();
+		  this.selectFiles(e.dataTransfer.files);
+		},
+		
+		clearUploadList: function () {
+		  this.uploadedList = [];
+		  this.uploadList = [];
+		},
+	    
+	    uploadFiles: function (files) {
+		  var uploadedList = this.uploadedList;
+		  this.$.status.innerHTML = 'Uploading...';
+		  var f;
+		  for(var i=0; f = files[i]; i++) {
+		    var uploader = new MediaUploader({
+		      file: f,
+		      token:accessToken,
+		      onComplete: function (data) {
+		        uploadedList.push(JSON.parse(data));
+		        this.$.status.innerHTML = 'Upload successful';
+		        this.uploadList = [];
+		      }.bind(this)
+		    });
+		    uploader.upload();
+		  }
+		},
+	    
+	    manualUpload: function () { 
+		  this.uploadFiles(this.queue); 
+		},
+	    
+	    selectFiles: function (files) {
+	      this.queue = files;
+	      this.$.status.textContent = 'Files selected';
+	
+	      var f;
+	      for(var i=0; f = files[i]; i++) {
+	        this.uploadList.push(f);
+	      }
+	
+	      if(this.autoUpload) {
+	        this.uploadFiles(files);
+	      }
+	    }
+	    
+				
+		
+	 });
+	    
+	   
+	  
+	  
+	  
+  </script>
+
+</polymer-element>

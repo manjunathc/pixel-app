@@ -1,0 +1,48 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-ajax/core-ajax.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/core-ajax/core-xhr.html">
+
+<!-- 
+  `<post-service>` provides an API for a fake service -- 
+  _unquote_, the read-only social networking service!
+
+  Provides a very simple API: `posts` returns the list of posts.
+  `setFavorite` pretends to persist a user's favorite choice.
+
+  @element post-service
+  @demo 
+  @homepage http://www.polymer-project.org/docs/start/tutorial.html
+-->
+
+<polymer-element name="image-service" attributes="images">
+  <template>
+    <style>
+    :host {
+      display: none;
+    }
+    </style>
+    
+    <core-ajax id="ajax"
+      auto
+      url="../../api/images.json"
+      on-core-response="{{imagesLoaded}}"
+      handleAs="json">
+    </core-ajax>
+       
+  </template>
+  
+      
+  <script>
+  Polymer('image-service', {
+    created: function() {
+	  console.log("Called Image Services");  
+      this.images = [];
+    },
+    imagesLoaded: function() {
+      // Make a copy of the loaded data
+      console.log("Called Image Services"); 
+      this.images = this.$.ajax.response.slice(0);
+    }  });
+  </script>
+</polymer-element>

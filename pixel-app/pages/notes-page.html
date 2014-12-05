@@ -1,0 +1,98 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/layouts/sidebar-layout.html">
+<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="stylesheet" href="../css/styles.css" shim-shadowdom>
+<link rel="import" href="/bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="/bower_components/core-localstorage/core-localstorage.html">
+<link rel="import" href="/bower_components/core-item/core-item.html">
+<link rel="import" href="/bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="/bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="/bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+
+<polymer-element name="notes-page">
+  <template>
+    <style>
+	
+	.item {
+	  margin: 3em;
+	}
+	
+	.item[data-done="true"] {
+	  opacity: 0.3;
+	}
+	
+	.card {
+	  width: 300px;
+	  background-color: #fff;
+	  padding: 1em;
+	  position: relative;
+	}
+	
+    </style>
+    
+  
+    <sidebar-layout selected="notes">
+      <paper-fab icon="icons:add" on-click="{{showNewNoteInput}}"></paper-fab>
+      <paper-icon-button icon="delete" on-click="{{delete}}"></paper-icon-button>
+
+      
+      <paper-input id="newNoteInput"
+               floatingLabel
+               label="Add a Todo"
+               on-click="{{add}}"
+               value="{{newNote}}"></paper-input>
+    
+       <template repeat="{{data}}" >
+	    <div center horizontal layout class="item">
+	      <paper-checkbox checked="{{done}}"></paper-checkbox>
+	      <div flex class="card">
+	        <p>{{body}}</p>
+	      </div>
+	    </div>
+    </template>
+	<core-localstorage id="storage" name="pixel-app-storage" value="{{data}}"></core-localstorage>
+	
+	
+    </sidebar-layout>
+  </template>
+  <script>
+  Polymer({
+	data: [],
+	
+	 add: function() {
+	  if (this.newNote) {
+        this.data.unshift({
+          body: this.newNote,
+          done: false
+        });
+        this.$.newNoteInput.style.display = 'none';
+        this.$.newNoteInput.value = null;
+      }
+    },
+    
+      
+    ready: function() {
+      this.$.newNoteInput.style.display = 'none';
+    },
+    
+    showNewNoteInput: function() {
+      this.$.newNoteInput.style.display = 'block';
+    },
+    
+    dataChanged: function() {
+      this.$.storage.save();
+    },
+    delete: function(e) {
+      this.data = this.data.filter(function(item) {
+        return !item.done;
+      })
+    }
+    
+    
+  });
+</script>
+  
+</polymer-element>
